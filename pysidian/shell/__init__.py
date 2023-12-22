@@ -6,7 +6,12 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 from pysidian.shell.plugin import plugin # noqa
 from pysidian.shell.vault import vault # noqa
 
-@click_shell.shell("pysidian", help="Pysidian dev toolkit", invoke_without_command=True)
+@click_shell.shell(
+    "pysidian", 
+    help="Pysidian dev toolkit", 
+    invoke_without_command=True,
+    chain=True
+)
 @click.pass_context
 def cli(ctx : click.Context):
     print("Pysidian dev toolkit")
