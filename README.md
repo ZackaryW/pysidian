@@ -1,2 +1,2 @@
 # pysidian
- obsidian dev assitance using python
+a python toolkit for obsidian dev
