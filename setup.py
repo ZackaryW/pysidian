@@ -10,6 +10,8 @@ setup(
     ],
     install_requires=[
         "zrcl3",
+        "click",
+        "click_shell"
     ],
     entry_points={
         "console_scripts": [
