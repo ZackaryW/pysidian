@@ -34,10 +34,11 @@ def bkup(ctx, path):
     ctx.obj["targetPlugin"].bkup(path)
 
 @cli.command("loadPlugin")
+@click.option("-p", "--path", default=os.getcwd(), help="Path to plugin")
 @click.pass_context
-def update(ctx):
+def update(ctx, path):
     if "targetPlugin" not in ctx.obj:
-        ctx.obj["targetPlugin"] = ObsidianPlugin(os.getcwd())
+        ctx.obj["targetPlugin"] = ObsidianPlugin(path)
     
     p : ObsidianPlugin =ctx.obj["targetPlugin"]
     v : ObsidianVault = ctx.obj["targetVault"]
