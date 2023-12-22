@@ -15,7 +15,7 @@ def create_manifiest(ctx, path):
     p = ObsidianPlugin(path)
     p.manifest = testManifest
     ctx.obj["targetPlugin"] = p
-    
+
 @plugin.command("bkup") 
 @click.argument("path")
 @click.pass_context
@@ -25,6 +25,9 @@ def bkup(ctx, path):
 @plugin.command("load")
 @click.pass_context
 def update(ctx):
+    if "targetPlugin" not in ctx.obj:
+        ctx.obj["targetPlugin"] = ObsidianPlugin(os.getcwd())
+    
     p : ObsidianPlugin =ctx.obj["targetPlugin"]
     v : ObsidianVault = ctx.obj["targetVault"]
     p.update(v)
