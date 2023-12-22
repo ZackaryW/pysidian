@@ -2,10 +2,9 @@ from setuptools import setup
 
 setup(
     name="pysidian",
-    version="1.0.2",
+    version="1.1.0",
     packages=[
         "pysidian",
-        "pysidian.shell",
         "pysidian.core",
     ],
     install_requires=[
@@ -15,7 +14,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "pysidian = pysidian.shell.__init__:main",
+            "pysidian = pysidian.shell:main",
         ]
     },
     python_requires=">=3.8",
