@@ -3,7 +3,7 @@ import click
 import os
 import zipfile
 from pysidian.local_brat import gen_plugin_checksum, getPluginId, updatePlugin
-from pysidian.utils import mod_dir
+from pysidian.utils import mod_dir, tamper_check
 from pysidian.utils.dict import getJson, getToml, getVal, writeToml
 from pysidian.utils.sub import run_uri
 import json
@@ -166,6 +166,13 @@ def unregvault(path : str, uid : str):
         unregister_vault_via_path(path)
     else:
         unregister_vault_via_uid(uid)
-    
+
+@cli.command("tamper")
+def tcheck():
+    if tamper_check():
+        click.echo("Tamper check passed")
+    else:
+        click.echo("Tamper check failed")
+
 def cli_main():
     cli()
