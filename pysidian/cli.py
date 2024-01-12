@@ -1,9 +1,11 @@
+record_hash = "ca188c87e2565bf5df9e5c8b70df30d929e08fc0a131c0d9912c28f671ed2aa6"
+
 import shutil
 import click
 import os
 import zipfile
 from pysidian.local_brat import gen_plugin_checksum, getPluginId, updatePlugin
-from pysidian.utils import mod_dir, tamper_check
+from pysidian.utils import mod_dir, tamper_check, utils_dir
 from pysidian.utils.dict import getJson, getToml, getVal, writeToml
 from pysidian.utils.sub import run_uri
 import json
@@ -169,6 +171,14 @@ def unregvault(path : str, uid : str):
 
 @cli.command("tamper")
 def tcheck():
+    import hashlib
+    filehash = hashlib.sha256(open(os.path.join(utils_dir,"__init__.py"), 'rb').read()).hexdigest()
+    click.echo(filehash)
+    if filehash != record_hash:
+        
+        click.echo("Tamper check failed")
+        return
+    
     if tamper_check():
         click.echo("Tamper check passed")
     else:

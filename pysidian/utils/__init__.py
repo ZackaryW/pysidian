@@ -1,4 +1,6 @@
-import os
+_x1 = '224a09b94b6216227b2ad111d913a7579127dc6f8da2f85d0aeade851a2b7d42'
+_x2 = '60f3dff35b0865e9ff160bf79017866477e49746ab95db542bff7a5c0dd0f06c'
+import os #noqa
 
 appdata = os.getenv("APPDATA")
 
@@ -11,9 +13,6 @@ mod_dir = os.path.dirname(utils_dir)
 
 # check tampering
 def tamper_check():
-    _x1 = "224a09b94b6216227b2ad111d913a7579127dc6f8da2f85d0aeade851a2b7d42"
-    _x2 = "60f3dff35b0865e9ff160bf79017866477e49746ab95db542bff7a5c0dd0f06c"
-    
     import hashlib
     
     # sha256 check

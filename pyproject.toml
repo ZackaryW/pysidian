@@ -1,5 +1,6 @@
 [tool.ruff.extend-per-file-ignores]
 "__init__.py" = ["F401"]
+"cli.py" = ["E402"]
 
 [tool.ruff]
 line-length = 120
