@@ -6,7 +6,7 @@ import platform
 import subprocess
 import uuid
 import orjson
-
+import hashlib
 
 def custom_uid(text : str):
     return uuid.uuid5(uuid.NAMESPACE_URL, text).hex[:16]
@@ -75,3 +75,50 @@ def load_json(path : str):
 def save_json(path : str, d):
     with open(path, 'w') as f:
         f.write(orjson.dumps(d, option=orjson.OPT_INDENT_2))
+
+def walk_to_target(target_file : str, path : str, max_depth : int):
+    sources = os.listdir(path)
+    #sort by most subfiles content
+    sources.sort(key=lambda x: os.stat(os.path.join(path, x)).st_size, reverse=True)
+
+    for file in sources:
+        file_path = os.path.join(path, file)
+        if file == target_file:
+            return file_path
+        elif os.path.isdir(file_path) and max_depth > 0:
+            result = walk_to_target(target_file, file_path, max_depth - 1)
+            if result:
+                return result
+            
+    return None
+
+def compute_hash(file_path, hash_algorithm="sha256"):
+    """Compute the hash of a file, using system utilities when available."""
+    system = platform.system()
+
+    if system == "Windows":
+        # Use CertUtil on Windows
+        command = ['CertUtil', '-hashfile', file_path, hash_algorithm.upper()]
+        result = subprocess.run(command, capture_output=True, text=True)
+        if result.returncode == 0:
+            # Output parsing may vary depending on the utility
+            return result.stdout.splitlines()[1].strip()
+    elif system in ["Linux", "Darwin"]:
+        # Use shasum on Linux and macOS, adjusting parameters as necessary
+        if hash_algorithm.lower() == "sha256":
+            command = ['shasum', '-a', '256', file_path]
+        else:
+            # Default to SHA1 for simplicity in this example
+            command = ['shasum', file_path]
+        result = subprocess.run(command, capture_output=True, text=True)
+        if result.returncode == 0:
+            return result.stdout.split().pop(0)
+    # Fallback to using hashlib if system-specific command isn't implemented
+    hash_func = getattr(hashlib, hash_algorithm.lower(), None)
+    if hash_func is None:
+        raise ValueError(f"Unsupported hash algorithm: {hash_algorithm}")
+    with open(file_path, "rb") as f:
+        file_hash = hash_func()
+        while chunk := f.read(4096):
+            file_hash.update(chunk)
+        return file_hash.hexdigest()

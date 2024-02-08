@@ -53,4 +53,3 @@ current_plugin_index = _plugin_index_file["plugins"]
 if not _plugin_index_file.get("aliases", None):
     _plugin_index_file["aliases"] = {}
 current_plugin_alias = _plugin_index_file["aliases"]
-

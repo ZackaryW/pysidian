@@ -60,6 +60,7 @@ class Vault(metaclass=VaultMeta):
     @classmethod
     def init(cls, path: str):
         if os.path.exists(path) and os.path.exists(os.path.join(path, ".obsidian")):
+            path = os.path.abspath(path)
             return Vault(path)
 
         os.makedirs(os.path.join(path, ".obsidian"), exist_ok=True)
@@ -109,7 +110,7 @@ class Vault(metaclass=VaultMeta):
         run_uri(f"obsidian://open?vault={self.id}")
 
         if not_reg:
-            sleep(0.3)
+            sleep(0.2)
             self.unreg()
 
     @classmethod
@@ -117,7 +118,7 @@ class Vault(metaclass=VaultMeta):
         for proc in psutil.process_iter():
             if proc.name() == "Obsidian.exe":
                 proc.kill()
-        sleep(0.5)
+        sleep(0.2)
 
 
     @property
@@ -206,7 +207,7 @@ class Vault(metaclass=VaultMeta):
     def installPlugin(self, id : str, src : str):
         pluginDir = os.path.join(self.__path, ".obsidian", "plugins", id)
         if os.path.isdir(src):
-            shutil.copytree(src, pluginDir)
+            shutil.copytree(src, pluginDir, dirs_exist_ok=True)
         elif src.endswith(".zip"):
             with zipfile.ZipFile(src, 'r') as zip_ref:
                 zip_ref.extractall(pluginDir)

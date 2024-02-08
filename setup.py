@@ -8,22 +8,27 @@ setup(
     version="2.0.2",
     packages=[
         "pysidian",
-        "pysidian.utils",
+        "pysidian.core",
+        "pysidian.cli",
+        "pysidian.data",
+        "pysidian.data.pyarmor_runtime_000000"
     ],
     install_requires=[
         "click",
         "toml",
-        "packaging"
+        "packaging",
+        "psutil",
+        "sioDict",
+        "orjson",
     ],
     # include zip files
     include_package_data=True,
     package_data={
-        "pysidian": ["*.zip"]
+        "pysidian.data": ["*.zip"]
     },
     entry_points={
         "console_scripts": [
-            "pysidian = pysidian.cli:cli_main",
-            "pysid = pysidian.cli:cli_main",
+            "pysidian = pysidian.cli.__main__:cli",
         ]
     },
     python_requires=">=3.10",

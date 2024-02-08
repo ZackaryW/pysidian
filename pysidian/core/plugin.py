@@ -94,7 +94,13 @@ class Plugin:
                 if vault not in current_vault_index:
                     current_vault_index[self.cwd, "installed"].remove(vault)
 
-        return {x : Vault.getVault(x) for x in vaults}
+        ret = {}
+        for vault in vaults:
+            try:
+                ret[vault] = Vault.getVault(vault)
+            except Exception:
+                pass
+        return ret
     
     @property
     def stagingManifest(self) -> dict:
@@ -152,7 +158,7 @@ class Plugin:
 
     def addVault(self, vault : Vault):
         if vault.id in current_plugin_index[self.cwd].get("installed", []):
-            raise Exception(f"{vault.name} already installed")
+            raise Exception(f"{vault.name} already linked")
         
         current_plugin_index[self.cwd]["installed"].append(vault.id)
 
@@ -160,10 +166,11 @@ class Plugin:
         shutil.rmtree(os.path.join(self.cwd, ".pysidian", "staging"))
         os.makedirs(os.path.join(self.cwd, ".pysidian", "staging"))
 
-    def _createRelease(self):
+    def _createRelease(self, raises : bool  = False):
         releasePath = os.path.join(self.cwd, ".pysidian", "releases", f"{self.stagingVersion}.zip")
         if os.path.exists(releasePath):
-            raise Exception("release file already exists")
+            if raises:
+                raise Exception("release file already exists")
 
         with zipfile.ZipFile(releasePath, 'w') as zipObj:
             for root, _, files in os.walk(os.path.join(self.cwd, ".pysidian", "staging")):
@@ -191,7 +198,7 @@ class Plugin:
             raise Exception("already staged")
         
         if stagingVersion > pluginVersion:
-            raise Exception("staging version is newer than plugin version")
+            raise Exception(f"staging version {stagingVersion} is newer than plugin version {pluginVersion}")
         
         if pluginVersion in releaseVersions:
             raise Exception("plugin version already released")
@@ -257,3 +264,11 @@ class Plugin:
             else:
                 vault.installPlugin(self.id, targetZipPath)
         
+    def openWorkplace(self):
+        os.startfile(os.path.join(self.cwd))
+
+    def openWorkDir(self):
+        os.startfile(os.path.join(self.cwd, self.pluginConfig.get("workDir", "src")))
+
+    def openStagingDir(self):
+        os.startfile(os.path.join(self.cwd, ".pysidian", "staging"))

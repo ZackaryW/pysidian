@@ -1,24 +1,52 @@
 # pysidian
-a local (BRAT like) integration to help you with Obsidian plugin development
+A CLI tool written in Python intended for managing obsidian plugin deployments and development
 
-## Components
-- local-brat is an Obsidian plugin
-- pysidian is a python click cli
+## Installation
+```bash
+pip install pysidian
+```
 
-## Click Commands
-### test_init
-    - uses obsidian sample plugin for test
-### init
-    - init plugin workplace
-### update
-    - update plugin
-### commit
-    - copy plugin files to pysidian-release folder
-### vault new
-    - create new vault
-### vault open
-    - open vault
-### vault reg
-    - register vault so it can be opened by obsidian
-### vault unreg
-    - unregister vault
+## Cli Commands
+flow        a direct method to run commit and open vault at the same time
+plugin      plugin commands
+  - commit  commit plugin changes
+  - init    init plugin workplace
+  - open    open plugin work folders
+  - push    push plugin changes
+  - reg     register plugin as a update src for vault
+  - stage   stage plugin changes
+vault       vault commands
+  - init    init vault
+  - open    open vault
+  - reg     register vault
+
+## Example usage
+```py
+import shutil
+import os
+from pysidian import Plugin, Vault
+from pysidian.core.index import current_plugin_index
+
+p = Plugin.sample("testing", "pluginSrc")
+p._clearStagingFolder()
+p.stage()
+try:
+    p.commit()
+except Exception as e:
+    print(e.args[0])
+
+shutil.rmtree(os.path.join("testing", "sampleVault"), ignore_errors=True)
+v = Vault.init("testing/sampleVault")
+
+try:
+    p.addVault(v)
+except Exception as e:
+    print(e.args[0])
+assert v.id in current_plugin_index.get(p.cwd).get("installed")
+
+p.push()
+
+v.open()
+
+p.openWorkDir()
+```
