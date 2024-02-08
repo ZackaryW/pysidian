@@ -1,4 +1,3 @@
-import logging
 import os
 import click
 from pysidian.core import Plugin, Vault
