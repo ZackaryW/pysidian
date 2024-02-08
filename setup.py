@@ -12,7 +12,8 @@ setup(
     ],
     install_requires=[
         "click",
-        "toml"
+        "toml",
+        "packaging"
     ],
     # include zip files
     include_package_data=True,
@@ -25,7 +26,7 @@ setup(
             "pysid = pysidian.cli:cli_main",
         ]
     },
-    python_requires=">=3.8",
+    python_requires=">=3.10",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     author="ZackaryW",   

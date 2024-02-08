@@ -166,3 +166,8 @@ package-lock.json
 # build
 main.js
 *.js.map
+
+#
+plugin_index.json
+vault_index.json
+testing

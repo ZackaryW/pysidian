@@ -1,8 +1,0 @@
-{
-    "id": "local-brat",
-    "name": "brat local variant",
-    "version": "1.0.0",
-    "description": "just as brat but handle local",
-    "author": "ZackaryW",
-    "isDesktopOnly": true
-  }
