@@ -82,7 +82,7 @@ class CustomInstallCommand(install):
         package_path = os.path.join(self.install_lib, 'pysidian')
         print(f"Package installed at: {package_path}")
 
-        os.startfile(package_path)
+        #os.startfile(package_path)
 
         data_folder = os.path.join(package_path, "data")
         data_init = os.path.join(package_path, "data" ,'__init__.py')
