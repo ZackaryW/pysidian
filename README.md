@@ -6,6 +6,8 @@ A CLI tool written in Python intended for managing obsidian plugin deployments a
 pip install pysidian
 ```
 
+to install from source, you need to run tools/generate_data_checksums.py after git clone
+
 ## Cli Commands
 flow        a direct method to run commit and open vault at the same time
 plugin      plugin commands
@@ -50,3 +52,6 @@ v.open()
 
 p.openWorkDir()
 ```
+
+# Acknowledgements
+- uses pyarmor to obfuscate integrity check

@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name="pysidian",
-    version="2.0.2",
+    version="3.0.0",
     packages=[
         "pysidian",
         "pysidian.core",
@@ -24,7 +24,8 @@ setup(
     # include zip files
     include_package_data=True,
     package_data={
-        "pysidian.data": ["*.zip"]
+        "pysidian.data": ["*.zip"],
+        "pysidian.data.pyarmor_runtime_000000": ["*.pyd"],
     },
     entry_points={
         "console_scripts": [
