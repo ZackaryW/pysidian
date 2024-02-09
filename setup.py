@@ -132,7 +132,7 @@ if __name__ == "__main__":
 
 setup(
     name="pysidian",
-    version="3.1.0",
+    version="3.1.1",
     packages=[
         "pysidian",
         "pysidian.core",

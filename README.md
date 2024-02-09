@@ -12,18 +12,20 @@ pip install pyarmor pysidian
 pip install pysidian
 ```
 ## Cli Commands
-flow        a direct method to run commit and open vault at the same time
-plugin      plugin commands
-  - commit  commit plugin changes
-  - init    init plugin workplace
-  - open    open plugin work folders
-  - push    push plugin changes
-  - reg     register plugin as a update src for vault
-  - stage   stage plugin changes
-vault       vault commands
-  - init    init vault
-  - open    open vault
-  - reg     register vault
+|Command|Short|Description|
+|--|--|--|
+|flow |     |  a direct method to run commit and open vault at the same time|
+|plugin|    |  plugin commands|
+| | commit | commit plugin changes|
+| | init  |  init plugin workplace|
+| | open  |  open plugin work folders|
+| | push  |  push plugin changes|
+| | reg   |  register plugin as a update src for vault|
+| | stage |  stage plugin changes|
+vault |    |  vault commands|
+| | init  |  init vault|
+| | open  |  open vault|
+| | reg   |  register vault|
 
 ## Example usage
 ```py
