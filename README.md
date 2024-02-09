@@ -5,7 +5,10 @@ A CLI tool written in Python intended for managing obsidian plugin deployments a
 to install a safer version 
 ```py
 # ensure pyarmor
-pip install pyarmor pysidian
+pip install pyarmor
+git clone https://github.com/ZackaryW/pysidian.git
+cd pysidian
+python setup.py install
 ```
 
 ```bash
