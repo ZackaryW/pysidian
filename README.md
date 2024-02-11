@@ -3,32 +3,12 @@ A CLI tool written in Python intended for managing obsidian plugin deployments a
 
 ## Installation
 to install a safer version 
-```py
-# ensure pyarmor
-pip install pyarmor
-git clone https://github.com/ZackaryW/pysidian.git
-cd pysidian
-python setup.py install
-```
-
 ```bash
 pip install pysidian
 ```
-## Cli Commands
-|Command|Short|Description|
-|--|--|--|
-|flow |     |  a direct method to run commit and open vault at the same time|
-|plugin|    |  plugin commands|
-| | commit | commit plugin changes|
-| | init  |  init plugin workplace|
-| | open  |  open plugin work folders|
-| | push  |  push plugin changes|
-| | reg   |  register plugin as a update src for vault|
-| | stage |  stage plugin changes|
-vault |    |  vault commands|
-| | init  |  init vault|
-| | open  |  open vault|
-| | reg   |  register vault|
+
+## Security Considerations
+- Do not use PluginWorkplace.createFromSample() in production
 
 ## Example usage
 ```py
@@ -61,5 +41,3 @@ v.open()
 p.openWorkDir()
 ```
 
-# Acknowledgements
-- uses pyarmor to obfuscate integrity check
