@@ -2,6 +2,8 @@ import typing
 import click
 import os
 import sys
+
+from pysidian.utils.misc import walk_to_target
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from pysidian import Vault, PluginWorkplace
 from pysidian.core.vault import vault_alias
@@ -21,8 +23,9 @@ def cli(version):
 @click.pass_context
 def vault(ctx : click.Context, path : str, id : str, alias : str): 
     if not path and not id and not alias:
-        if os.path.exists(os.path.join(os.getcwd(), ".obsidian")):
-            path = os.getcwd()
+        res = walk_to_target(".obsidian", os.getcwd(), 3)
+        if res is not None:
+            path = os.path.dirname(res)
             ctx.obj = Vault(path)
             click.echo("Opened " + path)
     elif (res := Vault.fetch(alias, path, id)):
@@ -178,11 +181,12 @@ def _plugin_push(obj : PluginWorkplace, version : str):
 
 @plugin.command("auto")
 @click.option("--alias", "-a", help="set alias")
+@click.option("--testvault", "-t", help="create a test vault if one is absent", is_flag=True)
 @click.option("--id", "-i", help="set id")
 @click.option("--path", "-p", type=click.Path(exists=True), required=False, help="Plugin path")
 @click.option("--index", "-x", type=int, required=False, help="Plugin index")
 @click.pass_context
-def _plugin_auto(ctx : click.Context, alias : str, id : str, path : str, index : int):
+def _plugin_auto(ctx : click.Context, alias : str, id : str, path : str, index : int, testvault : bool):
     if ctx.obj is None:
         return click.echo("Auto Plugin command failed, no plugin selected")
     
@@ -191,6 +195,12 @@ def _plugin_auto(ctx : click.Context, alias : str, id : str, path : str, index :
     ctx.invoke(_plugin_push)
     
     wp : PluginWorkplace = ctx.obj
+
+    if len(wp.config.testVaults) == 0:
+        if not testvault:
+            return click.echo("no test vault")
+        else:
+            wp.addLocalTestVault("vault-test")
     
     if path or id or alias:
         for vault in wp.config.testVaults:
