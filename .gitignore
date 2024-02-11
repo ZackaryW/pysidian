@@ -168,6 +168,5 @@ main.js
 *.js.map
 
 #
-plugin_index.json
-vault_index.json
+pysidian/core/*.json
 testing
